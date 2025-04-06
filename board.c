@@ -1,6 +1,7 @@
 #include <raylib.h>
 
 #include "board.h"
+#include "globals.h"
 #include "themes.h"
 
 static Cell cells[DEFAULT_BOARD_SIZE][DEFAULT_BOARD_SIZE];
@@ -28,10 +29,12 @@ void DrawGameBoard(void)
 {
 	int cellSize = GetScreenWidth() / DEFAULT_BOARD_SIZE;
 
+	Damapp *game = GetGameStruct();
+	Theme *theme = GetThemeById(game->theme);
+
 	for (int y = 0; y < DEFAULT_BOARD_SIZE; y++) {
 		for (int x = 0; x < DEFAULT_BOARD_SIZE; x++) {
-			Color color =
-				(x + y) % 2 == 0 ? themes[current_theme].dark : themes[current_theme].light;
+			Color color = (x + y) % 2 == 0 ? theme->dark : theme->light;
 			DrawRectangle(x * cellSize, (y * cellSize), cellSize, cellSize, color);
 			cells[y][x].size = cellSize;
 			cells[y][x].posX = x * cellSize;
