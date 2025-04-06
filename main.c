@@ -6,6 +6,7 @@
 #include "board.h"
 #include "pieces.h"
 #include "sound.h"
+#include "themes.h"
 
 typedef enum { MENU, INFO, SETTINGS, GAME } GameState;
 
@@ -13,8 +14,8 @@ static GameState game_state = MENU;
 
 void DrawGameMenu(void)
 {
-	const int screenWidth = GetScreenWidth();
-	const int screenHeight = GetScreenHeight();
+	int screenWidth = GetScreenWidth();
+	int screenHeight = GetScreenHeight();
 
 	Sound *click_sound = GetClickSound();
 
@@ -59,6 +60,35 @@ void DrawInfoPage(void)
 			 screenHeight / 2 - 50, 20, BLACK);
 }
 
+void DrawSettingsMenu(void)
+{
+	int screenWidth = GetScreenWidth();
+	int screenHeight = GetScreenHeight();
+
+	Sound *click_sound = GetClickSound();
+
+	int titleWidth = MeasureText("Settings", 100);
+	DrawText("Settings", screenWidth / 2 - (titleWidth / 2), 150, 100, DARKGRAY);
+
+	if (GuiComboBox((Rectangle){(float)screenWidth / 2 - 100, (float)screenHeight / 2, 200, 50},
+					"#25#Wood\n#25#Black and White", (int *)&current_theme))
+	{
+		PlaySound(*click_sound);
+	}
+}
+
+void CheckButtonClick(void)
+{
+	if (IsKeyPressed(KEY_M))
+		game_state = MENU;
+	if (IsKeyPressed(KEY_I))
+		game_state = INFO;
+	if (IsKeyPressed(KEY_S))
+		game_state = SETTINGS;
+	if (IsKeyPressed(KEY_G))
+		game_state = GAME;
+}
+
 int main()
 {
 	const int screenWidth = 800;
@@ -77,13 +107,18 @@ int main()
 	// Game loop
 	while (!WindowShouldClose()) {
 		BeginDrawing();
-		ClearBackground(RAYWHITE);
+		ClearBackground(themes[current_theme].light);
+
+		CheckButtonClick();
 
 		if (game_state == MENU) {
 			DrawGameMenu();
 		} else if (game_state == INFO) {
 			DrawInfoPage();
+		} else if (game_state == SETTINGS) {
+			DrawSettingsMenu();
 		} else if (game_state == GAME) {
+			InitGameBoard();
 			DrawGameBoard();
 			DrawPieces((Cell(*)[DEFAULT_BOARD_SIZE])GetCells());
 		}
