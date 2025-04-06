@@ -5,6 +5,7 @@
 
 #include "board.h"
 #include "pieces.h"
+#include "sound.h"
 
 typedef enum { MENU, INFO, SETTINGS, GAME } GameState;
 
@@ -15,24 +16,29 @@ void DrawGameMenu(void)
 	const int screenWidth = GetScreenWidth();
 	const int screenHeight = GetScreenHeight();
 
+	Sound *click_sound = GetClickSound();
+
 	int titleWidth = MeasureText("Dama++", 100);
 	DrawText("Dama++", screenWidth / 2 - (titleWidth / 2), 150, 100, DARKGRAY);
 
 	if (GuiButton((Rectangle){(float)screenWidth / 2 - 100, (float)screenHeight / 2 - 60, 200, 50},
 				  "#15#Info"))
 	{
+		PlaySound(*click_sound);
 		game_state = INFO;
 	}
 
 	if (GuiButton((Rectangle){(float)screenWidth / 2 - 100, (float)screenHeight / 2, 200, 50},
 				  "#142#Settings"))
 	{
+		PlaySound(*click_sound);
 		game_state = SETTINGS;
 	}
 
 	if (GuiButton((Rectangle){(float)screenWidth / 2 - 100, (float)screenHeight / 2 + 60, 200, 50},
 				  "#163#Play"))
 	{
+		PlaySound(*click_sound);
 		InitGameBoard();
 		game_state = GAME;
 	}
@@ -59,6 +65,11 @@ int main()
 	const int screenHeight = 800;
 
 	InitWindow(screenWidth, screenHeight, "Dama++");
+	InitAudioDevice();
+
+	// load sounds
+	LoadSounds();
+
 	SetTargetFPS(60);
 
 	/* SetConfigFlags(FLAG_WINDOW_RESIZABLE); */
@@ -80,6 +91,8 @@ int main()
 		EndDrawing();
 	}
 
+	CloseAudioDevice();
+	UnLoadSounds();
 	CloseWindow();
 	return 0;
 }
