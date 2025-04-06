@@ -1,39 +1,37 @@
+#include "themes.h"
 #include <raylib.h>
 
 #define RAYGUI_IMPLEMENTATION
 #include <raygui.h>
 
+#include "globals.h"
 #include "board.h"
 #include "pieces.h"
 #include "sound.h"
-#include "themes.h"
-
-typedef enum { MENU, INFO, SETTINGS, GAME } GameState;
-
-static GameState game_state = MENU;
 
 void DrawGameMenu(void)
 {
 	int screenWidth = GetScreenWidth();
 	int screenHeight = GetScreenHeight();
 
-	Sound *click_sound = GetClickSound();
-
 	int titleWidth = MeasureText("Dama++", 100);
 	DrawText("Dama++", screenWidth / 2 - (titleWidth / 2), 150, 100, DARKGRAY);
+
+	Sound *click_sound = GetClickSound();
+	Damapp *game = GetGameStruct();
 
 	if (GuiButton((Rectangle){(float)screenWidth / 2 - 100, (float)screenHeight / 2 - 60, 200, 50},
 				  "#15#Info"))
 	{
 		PlaySound(*click_sound);
-		game_state = INFO;
+		game->state = INFO;
 	}
 
 	if (GuiButton((Rectangle){(float)screenWidth / 2 - 100, (float)screenHeight / 2, 200, 50},
 				  "#142#Settings"))
 	{
 		PlaySound(*click_sound);
-		game_state = SETTINGS;
+		game->state = SETTINGS;
 	}
 
 	if (GuiButton((Rectangle){(float)screenWidth / 2 - 100, (float)screenHeight / 2 + 60, 200, 50},
@@ -41,7 +39,7 @@ void DrawGameMenu(void)
 	{
 		PlaySound(*click_sound);
 		InitGameBoard();
-		game_state = GAME;
+		game->state = GAME;
 	}
 }
 
@@ -66,12 +64,13 @@ void DrawSettingsMenu(void)
 	int screenHeight = GetScreenHeight();
 
 	Sound *click_sound = GetClickSound();
+	Damapp *game = GetGameStruct();
 
 	int titleWidth = MeasureText("Settings", 100);
 	DrawText("Settings", screenWidth / 2 - (titleWidth / 2), 150, 100, DARKGRAY);
 
 	if (GuiComboBox((Rectangle){(float)screenWidth / 2 - 100, (float)screenHeight / 2, 200, 50},
-					"#25#Wood\n#25#Black and White", (int *)&current_theme))
+					"#25#Wood\n#25#Black and White", (int *)&game->theme))
 	{
 		PlaySound(*click_sound);
 	}
@@ -79,14 +78,16 @@ void DrawSettingsMenu(void)
 
 void CheckButtonClick(void)
 {
+	Damapp *game = GetGameStruct();
+
 	if (IsKeyPressed(KEY_M))
-		game_state = MENU;
+		game->state = MENU;
 	if (IsKeyPressed(KEY_I))
-		game_state = INFO;
+		game->state = INFO;
 	if (IsKeyPressed(KEY_S))
-		game_state = SETTINGS;
+		game->state = SETTINGS;
 	if (IsKeyPressed(KEY_G))
-		game_state = GAME;
+		game->state = GAME;
 }
 
 int main()
@@ -104,20 +105,22 @@ int main()
 
 	/* SetConfigFlags(FLAG_WINDOW_RESIZABLE); */
 
+	Damapp *game = GetGameStruct();
+
 	// Game loop
 	while (!WindowShouldClose()) {
 		BeginDrawing();
-		ClearBackground(themes[current_theme].light);
+		ClearBackground(GetThemeById(game->theme)->light);
 
 		CheckButtonClick();
 
-		if (game_state == MENU) {
+		if (game->state == MENU) {
 			DrawGameMenu();
-		} else if (game_state == INFO) {
+		} else if (game->state == INFO) {
 			DrawInfoPage();
-		} else if (game_state == SETTINGS) {
+		} else if (game->state == SETTINGS) {
 			DrawSettingsMenu();
-		} else if (game_state == GAME) {
+		} else if (game->state == GAME) {
 			InitGameBoard();
 			DrawGameBoard();
 			DrawPieces((Cell(*)[DEFAULT_BOARD_SIZE])GetCells());
