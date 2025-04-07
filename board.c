@@ -36,9 +36,12 @@ void DrawGameBoard(void)
 		for (int x = 0; x < DEFAULT_BOARD_SIZE; x++) {
 			Color color = (x + y) % 2 == 0 ? theme->dark : theme->light;
 			DrawRectangle(x * cellSize, (y * cellSize), cellSize, cellSize, color);
-			cells[y][x].size = cellSize;
-			cells[y][x].posX = x * cellSize;
-			cells[y][x].posY = (y * cellSize);
+			cells[y][x].area = (Rectangle){
+				.x = x * cellSize,
+				.y = y * cellSize,
+				.width = cellSize,
+				.height = cellSize,
+			};
 		}
 	}
 }
