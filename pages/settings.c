@@ -3,13 +3,12 @@
 #include "../globals.h"
 #include "../sounds/sound.h"
 
-void DrawSettingsMenu(void)
+void DrawSettingsMenu(Damapp *game)
 {
 	int screenWidth = GetScreenWidth();
 	int screenHeight = GetScreenHeight();
 
 	Sound *click_sound = GetClickSound();
-	Damapp *game = GetGameStruct();
 
 	int titleWidth = MeasureText("Settings", 100);
 	DrawText("Settings", screenWidth / 2 - (titleWidth / 2), 150, 100, DARKGRAY);

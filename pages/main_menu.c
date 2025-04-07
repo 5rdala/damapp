@@ -4,7 +4,7 @@
 #include "../globals.h"
 #include "../board.h"
 
-void DrawGameMenu(void)
+void DrawGameMenu(Damapp *game)
 {
 	int screenWidth = GetScreenWidth();
 	int screenHeight = GetScreenHeight();
@@ -13,7 +13,6 @@ void DrawGameMenu(void)
 	DrawText("Dama++", screenWidth / 2 - (titleWidth / 2), 150, 100, DARKGRAY);
 
 	Sound *click_sound = GetClickSound();
-	Damapp *game = GetGameStruct();
 
 	if (GuiButton((Rectangle){(float)screenWidth / 2 - 100, (float)screenHeight / 2 - 60, 200, 50},
 				  "#15#Info"))
