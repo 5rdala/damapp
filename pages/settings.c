@@ -1,6 +1,6 @@
 #include <raygui.h>
 
-#include "../globals.h"
+#include "../game.h"
 #include "../sounds/sound.h"
 
 void DrawSettingsMenu(Damapp *game)

@@ -1,7 +1,7 @@
 #ifndef MAIN_MENU_H
 #define MAIN_MENU_H
 
-#include "../globals.h"
+#include "../game.h"
 
 void DrawGameMenu(Damapp *game);
 

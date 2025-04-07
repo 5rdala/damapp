@@ -1,7 +1,7 @@
 #include <raygui.h>
 
 #include "../sounds/sound.h"
-#include "../globals.h"
+#include "../game.h"
 #include "../board.h"
 
 void DrawGameMenu(Damapp *game)
@@ -18,14 +18,14 @@ void DrawGameMenu(Damapp *game)
 				  "#15#Info"))
 	{
 		PlaySound(*click_sound);
-		game->state = INFO;
+		game->state = INFO_PAGE;
 	}
 
 	if (GuiButton((Rectangle){(float)screenWidth / 2 - 100, (float)screenHeight / 2, 200, 50},
 				  "#142#Settings"))
 	{
 		PlaySound(*click_sound);
-		game->state = SETTINGS;
+		game->state = SETTINGS_PAGE;
 	}
 
 	if (GuiButton((Rectangle){(float)screenWidth / 2 - 100, (float)screenHeight / 2 + 60, 200, 50},
@@ -40,6 +40,6 @@ void DrawGameMenu(Damapp *game)
 	{
 		PlaySound(*click_sound);
 		InitGameBoard();
-		game->state = GAME;
+		game->state = GAME_PAGE;
 	}
 }

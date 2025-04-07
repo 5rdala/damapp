@@ -1,7 +1,7 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
-#include "../globals.h"
+#include "../game.h"
 
 void DrawSettingsMenu(Damapp *game);
 
