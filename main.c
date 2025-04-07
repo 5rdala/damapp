@@ -1,4 +1,3 @@
-#include "themes.h"
 #include <raylib.h>
 
 #define RAYGUI_IMPLEMENTATION
@@ -8,6 +7,8 @@
 #include "board.h"
 #include "pieces.h"
 #include "sound.h"
+#include "friends.h"
+#include "themes.h"
 
 void DrawGameMenu(void)
 {
@@ -35,6 +36,13 @@ void DrawGameMenu(void)
 	}
 
 	if (GuiButton((Rectangle){(float)screenWidth / 2 - 100, (float)screenHeight / 2 + 60, 200, 50},
+				  "#149#Friends"))
+	{
+		PlaySound(*click_sound);
+		game->state = FRIENDS_PAGE;
+	}
+
+	if (GuiButton((Rectangle){(float)screenWidth / 2 - 100, (float)screenHeight / 2 + 120, 200, 50},
 				  "#163#Play"))
 	{
 		PlaySound(*click_sound);
@@ -101,6 +109,7 @@ int main()
 	// load sounds
 	LoadSounds();
 
+	SetExitKey(KEY_Q);
 	SetTargetFPS(60);
 
 	/* SetConfigFlags(FLAG_WINDOW_RESIZABLE); */
@@ -118,6 +127,8 @@ int main()
 			DrawGameMenu();
 		} else if (game->state == INFO) {
 			DrawInfoPage();
+		} else if (game->state == FRIENDS_PAGE) {
+			DrawFriendsPage();
 		} else if (game->state == SETTINGS) {
 			DrawSettingsMenu();
 		} else if (game->state == GAME) {
