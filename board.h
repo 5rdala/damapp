@@ -14,6 +14,7 @@ typedef struct {
 
 void InitGameBoard(void);
 void DrawGameBoard(void);
+void DrawPieces(void);
 Cell *GetCells(void);
 
 #endif // BOARD_H
