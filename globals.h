@@ -4,7 +4,7 @@
 #include "themes.h"
 
 // game state
-typedef enum { MENU, INFO, SETTINGS, GAME } GAME_STATE;
+typedef enum { MENU, INFO, FRIENDS_PAGE, SETTINGS, GAME } GAME_STATE;
 
 typedef struct {
 	GAME_STATE state;
