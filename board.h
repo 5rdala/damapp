@@ -1,14 +1,14 @@
 #ifndef BOARD_H
 #define BOARD_H
 
+#include <raylib.h>
+
 #define DEFAULT_BOARD_SIZE 8
 
 typedef enum { EMPTY_CELL, BLACK_PIECE, WHITE_PIECE, BLACK_QUEEN, WHITE_QUEEN } CELL_STATE;
 
 typedef struct {
-	int posX;
-	int posY;
-	int size;
+	Rectangle area;
 	CELL_STATE state;
 } Cell;
 
