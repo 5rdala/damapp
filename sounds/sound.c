@@ -1,6 +1,6 @@
 #include <raylib.h>
 
-#include "sounds/button_click.h"
+#include "button_click.h"
 
 static Sound click_sound = {};
 
