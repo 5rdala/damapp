@@ -54,13 +54,13 @@ int main()
 
 		switch (game->state) {
 		case MENU:
-			DrawGameMenu();
+			DrawGameMenu(game);
 			break;
 		case INFO:
 			DrawInfoPage();
 			break;
 		case SETTINGS:
-			DrawSettingsMenu();
+			DrawSettingsMenu(game);
 			break;
 		case FRIENDS_PAGE:
 			DrawFriendsPage();
