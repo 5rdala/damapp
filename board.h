@@ -2,6 +2,7 @@
 #define BOARD_H
 
 #include <raylib.h>
+#include "game.h"
 
 #define DEFAULT_BOARD_SIZE 8
 
@@ -13,7 +14,7 @@ typedef struct {
 } Cell;
 
 void InitGameBoard(void);
-void DrawGameBoard(void);
+void DrawGameBoard(Damapp *game);
 void DrawPieces(void);
 Cell *GetCells(void);
 

@@ -2,7 +2,7 @@
 #include <raygui.h>
 
 #include "board.h"
-#include "globals.h"
+#include "game.h"
 #include "themes.h"
 
 static Cell cells[DEFAULT_BOARD_SIZE][DEFAULT_BOARD_SIZE];
@@ -26,11 +26,10 @@ void InitGameBoard(void)
 	}
 }
 
-void DrawGameBoard(void)
+void DrawGameBoard(Damapp *game)
 {
 	int cellSize = GetScreenWidth() / DEFAULT_BOARD_SIZE;
 
-	Damapp *game = GetGameStruct();
 	Theme *theme = GetThemeById(game->theme);
 
 	for (int y = 0; y < DEFAULT_BOARD_SIZE; y++) {
