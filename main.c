@@ -10,21 +10,19 @@
 
 #include "sounds/sound.h"
 
-#include "globals.h"
+#include "game.h"
 #include "board.h"
 
-void CheckButtonClick(void)
+void CheckButtonClick(Damapp *game)
 {
-	Damapp *game = GetGameStruct();
-
 	if (IsKeyPressed(KEY_M))
-		game->state = MENU;
+		game->state = MAIN_MENU;
 	if (IsKeyPressed(KEY_I))
-		game->state = INFO;
+		game->state = INFO_PAGE;
 	if (IsKeyPressed(KEY_S))
-		game->state = SETTINGS;
+		game->state = SETTINGS_PAGE;
 	if (IsKeyPressed(KEY_G))
-		game->state = GAME;
+		game->state = GAME_PAGE;
 }
 
 int main()
@@ -43,31 +41,31 @@ int main()
 
 	/* SetConfigFlags(FLAG_WINDOW_RESIZABLE); */
 
-	Damapp *game = GetGameStruct();
+	Damapp *game = InitGame();
 
 	// Game loop
 	while (!WindowShouldClose()) {
 		BeginDrawing();
 		ClearBackground(GetThemeById(game->theme)->light);
 
-		CheckButtonClick();
+		CheckButtonClick(game);
 
 		switch (game->state) {
-		case MENU:
+		case MAIN_MENU:
 			DrawGameMenu(game);
 			break;
-		case INFO:
+		case INFO_PAGE:
 			DrawInfoPage();
 			break;
-		case SETTINGS:
+		case SETTINGS_PAGE:
 			DrawSettingsMenu(game);
 			break;
 		case FRIENDS_PAGE:
 			DrawFriendsPage();
 			break;
-		case GAME:
+		case GAME_PAGE:
 			InitGameBoard();
-			DrawGameBoard();
+			DrawGameBoard(game);
 			DrawPieces();
 			break;
 		}
